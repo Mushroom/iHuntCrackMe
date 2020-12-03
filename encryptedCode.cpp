@@ -34,13 +34,20 @@ void encryptDecrypt(char inpString[], int length)
 
 int checkFunc(char input[]) //manually unrolled the above so it can be embedded as a payload more easily
 {
-    if((input[0] ^ 0x10) != 0x6a) return 1;
-    if((input[1] ^ 0x11) != 0x78) return 1;
-    if((input[2] ^ 0x12) != 0x62) return 1;
-    if((input[3] ^ 0x13) != 0x7f) return 1;
-    if((input[4] ^ 0x14) != 0x7d) return 1;
-    if((input[5] ^ 0x15) != 0x7b) return 1;
-    if((input[6] ^ 0x16) != 0x73) return 1;
+    char z = 0x6a;
+    if((input[0] ^ 0x10) != z) return 1;
+    char i = 0x78;
+    if((input[1] ^ 0x11) != i) return 1;
+    char p = 0x62;
+    if((input[2] ^ 0x12) != p) return 1;
+    char l = 0x7f;
+    if((input[3] ^ 0x13) != l) return 1;
+    char i2 = 0x7d;
+    if((input[4] ^ 0x14) != i2) return 1;
+    char n = 0x7b;
+    if((input[5] ^ 0x15) != n) return 1;
+    char e = 0x73;
+    if((input[6] ^ 0x16) != e) return 1;
 
     return 0;
 }
@@ -54,10 +61,10 @@ int funcAfter(char* input) //spam some extra crap into memory
 
 int main(void)
 {
-    int size = &funcAfter - &checkFunc + 228;
+    int size = &funcAfter - &checkFunc + 368;
 
     void* encArea = malloc(size);
-    memcpy(encArea, &funcAfter - 228, size);
+    memcpy(encArea, &funcAfter - 368, size);
 
     encryptDecrypt((char*)encArea, size);
 
